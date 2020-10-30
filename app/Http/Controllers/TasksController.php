@@ -33,9 +33,11 @@ class TasksController extends Controller
         $task = new Task;
 
         // メッセージ作成ビューを表示
+       
         return view('tasks.create', [
             'task' => $task,
         ]);
+       
     }
 
     /**
@@ -47,12 +49,13 @@ class TasksController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'status' => 'required|max:10',   // 追加
+            'status' => 'required|max:10',  
            'content' => 'required|max:10',
         ]);
 
         
         $task = new Task;
+        
         $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
@@ -71,9 +74,14 @@ class TasksController extends Controller
     {
         $task = Task::findOrFail($id);
 
+      if (\Auth::id() == $task->user_id) {
         return view('tasks.show', [
             'task' => $task,
         ]);
+     }else{
+          return redirect('/'); 
+     }
+     
     }
 
     /**
@@ -86,10 +94,14 @@ class TasksController extends Controller
     {
         $task = Task::findOrFail($id);
 
-        
+         if (\Auth::id() == $task->user_id) {
         return view('tasks.edit', [
             'task' => $task,
         ]);
+        
+         }else{
+            return redirect('/');
+         }
     }
 
     /**
@@ -106,12 +118,17 @@ class TasksController extends Controller
             'content' => 'required|max:10',
         ]);
         
+        if (\Auth::id() == $task->user_id) {
         $task = Task::findOrFail($id);
         $task->status = $request->status; 
         $task->content = $request->content;
         $task->save();
         
         return redirect('/');
+        
+        }else{
+         return redirect('/'); 
+       }
     }
 
     /**
@@ -124,9 +141,10 @@ class TasksController extends Controller
     {
         $task = Task::findOrFail($id);
         
-        $task->delete();
-
-        
-        return redirect('/');
+        if (\Auth::id() == $task->user_id) {
+            $task->delete();
+        }else{
+         return redirect('/'); 
+       }
     }
 }
