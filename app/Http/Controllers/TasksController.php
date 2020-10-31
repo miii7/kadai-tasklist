@@ -87,9 +87,7 @@ class TasksController extends Controller
     {
         $task = Task::findOrFail($id);
       
-      if (\Auth::check()) { // 認証済みの場合
-            // 認証済みユーザを取得
-            $user = \Auth::user();
+      if (\Auth::id() == $task->user_id) {
             
         return view('tasks.show', [
             'task' => $task,
@@ -111,9 +109,7 @@ class TasksController extends Controller
     {
         $task = Task::findOrFail($id);
 
-         if (\Auth::check()) { // 認証済みの場合
-            // 認証済みユーザを取得
-            $user = \Auth::user();
+        if (\Auth::id() == $task->user_id) {
             
         return view('tasks.edit', [
             'task' => $task,
@@ -139,12 +135,10 @@ class TasksController extends Controller
             'content' => 'required|max:10',
         ]);
         
-        if (\Auth::check()) { // 認証済みの場合
-            // 認証済みユーザを取得
-            $user = \Auth::user();
-            
+        
         $task = Task::findOrFail($id);
         
+        if (\Auth::id() == $task->user_id) {
         
         $task->status = $request->status; 
         $task->content = $request->content;
@@ -166,9 +160,7 @@ class TasksController extends Controller
     {
         $task = Task::findOrFail($id);
         
-        if (\Auth::check()) { // 認証済みの場合
-            // 認証済みユーザを取得
-            $user = \Auth::user();
+        if (\Auth::id() == $task->user_id) {
             $task->delete();
         }
          return redirect('/'); 

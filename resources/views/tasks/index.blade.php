@@ -4,12 +4,11 @@
   
     @if(Auth::check())
     
-    
    
    <h1>タスク一覧</h1>
                 
 
-    @if (count($tasks) > 0)
+   
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -32,13 +31,8 @@
             </tbody>
         </table>
         
-    @endif
     
-    
-    
-
-    
-             
+            
               {{-- ログアウトへのリンク --}}
                {!! link_to_route('logout.get', 'Logout') !!}
              
