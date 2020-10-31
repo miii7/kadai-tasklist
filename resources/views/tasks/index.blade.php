@@ -3,6 +3,8 @@
 @section('content')
   
     @if(Auth::check())
+    
+    
    
    <h1>タスク一覧</h1>
                 
@@ -29,6 +31,7 @@
                 
             </tbody>
         </table>
+        
     @endif
     
     
